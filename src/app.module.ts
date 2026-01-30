@@ -20,6 +20,16 @@ Object.keys(process.env).forEach(key => {
 });
 console.log(JSON.stringify(allEnv, null, 2));
 console.log('=== END ENV VARIABLES ===');
+
+console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
+
+if (!process.env.DATABASE_URL) {
+  console.error('❌ DATABASE_URL is not set!');
+  console.error('For migrations, you need to:');
+  console.error('1. Create a .env.development file with DATABASE_URL');
+  console.error('2. Or set DATABASE_URL in your terminal');
+  throw new Error('DATABASE_URL is required for migrations');
+}
 @Module({
   imports: [
     ConfigModule.forRoot({

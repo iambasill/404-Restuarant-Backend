@@ -20,7 +20,7 @@ console.log(' Building project...');
 execSync('npm run build', { stdio: 'inherit' });
 
 console.log(` Generating migration: ${migrationName}...`);
-const command = `typeorm -d dist/database/data-source.js migration:generate ./src/database/migrations/${migrationName}`;
+const command = `typeorm -d dist/database/data.source.js migration:generate ./src/database/migrations/${migrationName}`;
 
 try {
   execSync(command, { stdio: 'inherit' });

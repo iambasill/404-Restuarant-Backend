@@ -108,8 +108,7 @@ export class AuthController {
     return {
       message: 'Login successful',
       status: 'active',
-      token: token,
-      refreshToken: refreshToken,
+      token: token
     };
   }
 

@@ -11,6 +11,15 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development').trim();
 console.log(`Running in ${NODE_ENV} mode`);
+
+// Log ALL environment variables
+console.log('=== ALL ENV VARIABLES (app.module.ts) ===');
+const allEnv = {};
+Object.keys(process.env).forEach(key => {
+  allEnv[key] = process.env[key];
+});
+console.log(JSON.stringify(allEnv, null, 2));
+console.log('=== END ENV VARIABLES ===');
 @Module({
   imports: [
     ConfigModule.forRoot({

@@ -1,8 +1,10 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { SiteSettingsService } from './site-settings.service';
 import { SubscribeNewsletterDto } from './dtos/subscribe-newsletter.dto';
+import { PublicRoute } from 'src/auth/decorator/allow-anonymous.decorator';
 
-@Controller('site-settings')
+@PublicRoute()
+@Controller('dashboard')
 export class SiteSettingsController {
   constructor(private readonly siteSettingsService: SiteSettingsService) {}
 

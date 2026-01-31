@@ -73,7 +73,7 @@ export class SiteSettingsService {
 
   // ========== CONTACT ==========
   async getContact(organizationId: string): Promise<Contact> {
-    const contact = await this.contactRepo.findOne({ where: { organizationId } });
+    const contact = await this.contactRepo.findOne({ where: {} });
     if (!contact) {
       throw new NotFoundException('Contact not found');
     }
@@ -81,10 +81,10 @@ export class SiteSettingsService {
   }
 
   async updateContact(organizationId: string, dto: UpdateContactDto): Promise<Contact> {
-    let contact = await this.contactRepo.findOne({ where: { organizationId } });
+    let contact = await this.contactRepo.findOne({ where: {} });
     
     if (!contact) {
-      contact = this.contactRepo.create({ ...dto, organizationId });
+      contact = this.contactRepo.create(dto);
     } else {
       Object.assign(contact, dto);
     }
@@ -94,7 +94,7 @@ export class SiteSettingsService {
 
   // ========== LOCATION ==========
   async getLocation(organizationId: string): Promise<Location> {
-    const location = await this.locationRepo.findOne({ where: { organizationId } });
+    const location = await this.locationRepo.findOne({ where: {} });
     if (!location) {
       throw new NotFoundException('Location not found');
     }
@@ -102,10 +102,10 @@ export class SiteSettingsService {
   }
 
   async updateLocation(organizationId: string, dto: UpdateLocationDto): Promise<Location> {
-    let location = await this.locationRepo.findOne({ where: { organizationId } });
+    let location = await this.locationRepo.findOne({ where: {} });
     
     if (!location) {
-      location = this.locationRepo.create({ ...dto, organizationId });
+      location = this.locationRepo.create(dto);
     } else {
       Object.assign(location, dto);
     }
@@ -115,7 +115,7 @@ export class SiteSettingsService {
 
   // ========== STATS ==========
   async getStats(organizationId: string): Promise<Stats> {
-    const stats = await this.statsRepo.findOne({ where: { organizationId } });
+    const stats = await this.statsRepo.findOne({ where: {} });
     if (!stats) {
       throw new NotFoundException('Stats not found');
     }
@@ -123,10 +123,10 @@ export class SiteSettingsService {
   }
 
   async updateStats(organizationId: string, dto: UpdateStatsDto): Promise<Stats> {
-    let stats = await this.statsRepo.findOne({ where: { organizationId } });
+    let stats = await this.statsRepo.findOne({ where: {} });
     
     if (!stats) {
-      stats = this.statsRepo.create({ ...dto, organizationId });
+      stats = this.statsRepo.create(dto);
     } else {
       Object.assign(stats, dto);
     }
@@ -136,18 +136,17 @@ export class SiteSettingsService {
 
   async getStatItems(organizationId: string): Promise<StatItem[]> {
     return this.statItemRepo.find({ 
-      where: { organizationId },
       order: { order: 'ASC' }
     });
   }
 
   async createStatItem(organizationId: string, dto: CreateStatItemDto): Promise<StatItem> {
-    const statItem = this.statItemRepo.create({ ...dto, organizationId });
+    const statItem = this.statItemRepo.create(dto);
     return this.statItemRepo.save(statItem);
   }
 
   async updateStatItem(id: number, organizationId: string, dto: UpdateStatItemDto): Promise<StatItem> {
-    const statItem = await this.statItemRepo.findOne({ where: { id, organizationId } });
+    const statItem = await this.statItemRepo.findOne({ where: { id } });
     if (!statItem) {
       throw new NotFoundException('Stat item not found');
     }
@@ -156,7 +155,7 @@ export class SiteSettingsService {
   }
 
   async deleteStatItem(id: number, organizationId: string): Promise<void> {
-    const result = await this.statItemRepo.delete({ id, organizationId });
+    const result = await this.statItemRepo.delete({ id });
     if (result.affected === 0) {
       throw new NotFoundException('Stat item not found');
     }
@@ -164,7 +163,7 @@ export class SiteSettingsService {
 
   // ========== MENU SECTION ==========
   async getMenuSection(organizationId: string): Promise<MenuSection> {
-    const menuSection = await this.menuSectionRepo.findOne({ where: { organizationId } });
+    const menuSection = await this.menuSectionRepo.findOne({ where: {} });
     if (!menuSection) {
       throw new NotFoundException('Menu section not found');
     }
@@ -172,10 +171,10 @@ export class SiteSettingsService {
   }
 
   async updateMenuSection(organizationId: string, dto: UpdateMenuSectionDto): Promise<MenuSection> {
-    let menuSection = await this.menuSectionRepo.findOne({ where: { organizationId } });
+    let menuSection = await this.menuSectionRepo.findOne({ where: {} });
     
     if (!menuSection) {
-      menuSection = this.menuSectionRepo.create({ ...dto, organizationId });
+      menuSection = this.menuSectionRepo.create(dto);
     } else {
       Object.assign(menuSection, dto);
     }
@@ -185,7 +184,7 @@ export class SiteSettingsService {
 
   // ========== WHY CHOOSE US ==========
   async getWhyChooseUs(organizationId: string): Promise<WhyChooseUs> {
-    const whyChooseUs = await this.whyChooseUsRepo.findOne({ where: { organizationId } });
+    const whyChooseUs = await this.whyChooseUsRepo.findOne({ where: {} });
     if (!whyChooseUs) {
       throw new NotFoundException('Why choose us not found');
     }
@@ -193,10 +192,10 @@ export class SiteSettingsService {
   }
 
   async updateWhyChooseUs(organizationId: string, dto: UpdateWhyChooseUsDto): Promise<WhyChooseUs> {
-    let whyChooseUs = await this.whyChooseUsRepo.findOne({ where: { organizationId } });
+    let whyChooseUs = await this.whyChooseUsRepo.findOne({ where: {} });
     
     if (!whyChooseUs) {
-      whyChooseUs = this.whyChooseUsRepo.create({ ...dto, organizationId });
+      whyChooseUs = this.whyChooseUsRepo.create(dto);
     } else {
       Object.assign(whyChooseUs, dto);
     }
@@ -206,18 +205,17 @@ export class SiteSettingsService {
 
   async getWhyChooseUsItems(organizationId: string): Promise<WhyChooseUsItem[]> {
     return this.whyChooseUsItemRepo.find({ 
-      where: { organizationId },
       order: { order: 'ASC' }
     });
   }
 
   async createWhyChooseUsItem(organizationId: string, dto: CreateWhyChooseUsItemDto): Promise<WhyChooseUsItem> {
-    const item = this.whyChooseUsItemRepo.create({ ...dto, organizationId });
+    const item = this.whyChooseUsItemRepo.create(dto);
     return this.whyChooseUsItemRepo.save(item);
   }
 
   async updateWhyChooseUsItem(id: number, organizationId: string, dto: UpdateWhyChooseUsItemDto): Promise<WhyChooseUsItem> {
-    const item = await this.whyChooseUsItemRepo.findOne({ where: { id, organizationId } });
+    const item = await this.whyChooseUsItemRepo.findOne({ where: { id } });
     if (!item) {
       throw new NotFoundException('Why choose us item not found');
     }
@@ -226,7 +224,7 @@ export class SiteSettingsService {
   }
 
   async deleteWhyChooseUsItem(id: number, organizationId: string): Promise<void> {
-    const result = await this.whyChooseUsItemRepo.delete({ id, organizationId });
+    const result = await this.whyChooseUsItemRepo.delete({ id });
     if (result.affected === 0) {
       throw new NotFoundException('Why choose us item not found');
     }
@@ -234,18 +232,17 @@ export class SiteSettingsService {
 
   async getWhyChooseUsChecks(organizationId: string): Promise<WhyChooseUsCheck[]> {
     return this.whyChooseUsCheckRepo.find({ 
-      where: { organizationId },
       order: { order: 'ASC' }
     });
   }
 
   async createWhyChooseUsCheck(organizationId: string, dto: CreateWhyChooseUsCheckDto): Promise<WhyChooseUsCheck> {
-    const check = this.whyChooseUsCheckRepo.create({ ...dto, organizationId });
+    const check = this.whyChooseUsCheckRepo.create(dto);
     return this.whyChooseUsCheckRepo.save(check);
   }
 
   async updateWhyChooseUsCheck(id: number, organizationId: string, dto: UpdateWhyChooseUsCheckDto): Promise<WhyChooseUsCheck> {
-    const check = await this.whyChooseUsCheckRepo.findOne({ where: { id, organizationId } });
+    const check = await this.whyChooseUsCheckRepo.findOne({ where: { id } });
     if (!check) {
       throw new NotFoundException('Check item not found');
     }
@@ -254,7 +251,7 @@ export class SiteSettingsService {
   }
 
   async deleteWhyChooseUsCheck(id: number, organizationId: string): Promise<void> {
-    const result = await this.whyChooseUsCheckRepo.delete({ id, organizationId });
+    const result = await this.whyChooseUsCheckRepo.delete({ id });
     if (result.affected === 0) {
       throw new NotFoundException('Check item not found');
     }
@@ -262,7 +259,7 @@ export class SiteSettingsService {
 
   // ========== NEWSLETTER ==========
   async getNewsletter(organizationId: string): Promise<Newsletter> {
-    const newsletter = await this.newsletterRepo.findOne({ where: { organizationId } });
+    const newsletter = await this.newsletterRepo.findOne({ where: {} });
     if (!newsletter) {
       throw new NotFoundException('Newsletter not found');
     }
@@ -270,10 +267,10 @@ export class SiteSettingsService {
   }
 
   async updateNewsletter(organizationId: string, dto: UpdateNewsletterDto): Promise<Newsletter> {
-    let newsletter = await this.newsletterRepo.findOne({ where: { organizationId } });
+    let newsletter = await this.newsletterRepo.findOne({ where: {} });
     
     if (!newsletter) {
-      newsletter = this.newsletterRepo.create({ ...dto, organizationId });
+      newsletter = this.newsletterRepo.create(dto);
     } else {
       Object.assign(newsletter, dto);
     }
@@ -283,24 +280,24 @@ export class SiteSettingsService {
 
   async subscribe(organizationId: string, dto: SubscribeNewsletterDto): Promise<NewsletterSubscriber> {
     const existing = await this.newsletterSubscriberRepo.findOne({
-      where: { email: dto.email, organizationId }
+      where: { email: dto.email }
     });
     
     if (existing) {
       return existing;
     }
     
-    const subscriber = this.newsletterSubscriberRepo.create({ ...dto, organizationId });
+    const subscriber = this.newsletterSubscriberRepo.create(dto);
     return this.newsletterSubscriberRepo.save(subscriber);
   }
 
   async getSubscribers(organizationId: string): Promise<NewsletterSubscriber[]> {
-    return this.newsletterSubscriberRepo.find({ where: { organizationId } });
+    return this.newsletterSubscriberRepo.find({});
   }
 
   // ========== TESTIMONIALS ==========
   async getTestimonials(organizationId: string): Promise<Testimonials> {
-    const testimonials = await this.testimonialsRepo.findOne({ where: { organizationId } });
+    const testimonials = await this.testimonialsRepo.findOne({ where: {} });
     if (!testimonials) {
       throw new NotFoundException('Testimonials not found');
     }
@@ -308,10 +305,10 @@ export class SiteSettingsService {
   }
 
   async updateTestimonials(organizationId: string, dto: UpdateTestimonialsDto): Promise<Testimonials> {
-    let testimonials = await this.testimonialsRepo.findOne({ where: { organizationId } });
+    let testimonials = await this.testimonialsRepo.findOne({ where: {} });
     
     if (!testimonials) {
-      testimonials = this.testimonialsRepo.create({ ...dto, organizationId });
+      testimonials = this.testimonialsRepo.create(dto);
     } else {
       Object.assign(testimonials, dto);
     }
@@ -321,25 +318,24 @@ export class SiteSettingsService {
 
   async getTestimonialItems(organizationId: string): Promise<TestimonialItem[]> {
     return this.testimonialItemRepo.find({ 
-      where: { organizationId, isActive: true },
+      where: { isActive: true },
       order: { order: 'ASC' }
     });
   }
 
   async getAllTestimonialItems(organizationId: string): Promise<TestimonialItem[]> {
     return this.testimonialItemRepo.find({ 
-      where: { organizationId },
       order: { order: 'ASC' }
     });
   }
 
   async createTestimonialItem(organizationId: string, dto: CreateTestimonialItemDto): Promise<TestimonialItem> {
-    const item = this.testimonialItemRepo.create({ ...dto, organizationId });
+    const item = this.testimonialItemRepo.create(dto);
     return this.testimonialItemRepo.save(item);
   }
 
   async updateTestimonialItem(id: number, organizationId: string, dto: UpdateTestimonialItemDto): Promise<TestimonialItem> {
-    const item = await this.testimonialItemRepo.findOne({ where: { id, organizationId } });
+    const item = await this.testimonialItemRepo.findOne({ where: { id } });
     if (!item) {
       throw new NotFoundException('Testimonial item not found');
     }
@@ -348,7 +344,7 @@ export class SiteSettingsService {
   }
 
   async deleteTestimonialItem(id: number, organizationId: string): Promise<void> {
-    const result = await this.testimonialItemRepo.delete({ id, organizationId });
+    const result = await this.testimonialItemRepo.delete({ id });
     if (result.affected === 0) {
       throw new NotFoundException('Testimonial item not found');
     }
@@ -357,25 +353,24 @@ export class SiteSettingsService {
   // ========== NAVIGATION ==========
   async getNavItems(organizationId: string): Promise<NavItem[]> {
     return this.navItemRepo.find({ 
-      where: { organizationId, isActive: true },
+      where: { isActive: true },
       order: { order: 'ASC' }
     });
   }
 
   async getAllNavItems(organizationId: string): Promise<NavItem[]> {
     return this.navItemRepo.find({ 
-      where: { organizationId },
       order: { order: 'ASC' }
     });
   }
 
   async createNavItem(organizationId: string, dto: CreateNavItemDto): Promise<NavItem> {
-    const item = this.navItemRepo.create({ ...dto, organizationId });
+    const item = this.navItemRepo.create(dto);
     return this.navItemRepo.save(item);
   }
 
   async updateNavItem(id: number, organizationId: string, dto: UpdateNavItemDto): Promise<NavItem> {
-    const item = await this.navItemRepo.findOne({ where: { id, organizationId } });
+    const item = await this.navItemRepo.findOne({ where: { id } });
     if (!item) {
       throw new NotFoundException('Nav item not found');
     }
@@ -384,7 +379,7 @@ export class SiteSettingsService {
   }
 
   async deleteNavItem(id: number, organizationId: string): Promise<void> {
-    const result = await this.navItemRepo.delete({ id, organizationId });
+    const result = await this.navItemRepo.delete({ id });
     if (result.affected === 0) {
       throw new NotFoundException('Nav item not found');
     }
@@ -392,7 +387,7 @@ export class SiteSettingsService {
 
   // ========== FOOTER ==========
   async getFooter(organizationId: string): Promise<Footer> {
-    const footer = await this.footerRepo.findOne({ where: { organizationId } });
+    const footer = await this.footerRepo.findOne({ where: {} });
     if (!footer) {
       throw new NotFoundException('Footer not found');
     }
@@ -400,10 +395,10 @@ export class SiteSettingsService {
   }
 
   async updateFooter(organizationId: string, dto: UpdateFooterDto): Promise<Footer> {
-    let footer = await this.footerRepo.findOne({ where: { organizationId } });
+    let footer = await this.footerRepo.findOne({ where: {} });
     
     if (!footer) {
-      footer = this.footerRepo.create({ ...dto, organizationId });
+      footer = this.footerRepo.create(dto);
     } else {
       Object.assign(footer, dto);
     }
@@ -413,18 +408,17 @@ export class SiteSettingsService {
 
   async getFooterProductLinks(organizationId: string): Promise<FooterProductLink[]> {
     return this.footerProductLinkRepo.find({ 
-      where: { organizationId },
       order: { order: 'ASC' }
     });
   }
 
   async createFooterProductLink(organizationId: string, dto: CreateFooterLinkDto): Promise<FooterProductLink> {
-    const link = this.footerProductLinkRepo.create({ ...dto, organizationId });
+    const link = this.footerProductLinkRepo.create(dto);
     return this.footerProductLinkRepo.save(link);
   }
 
   async updateFooterProductLink(id: number, organizationId: string, dto: UpdateFooterLinkDto): Promise<FooterProductLink> {
-    const link = await this.footerProductLinkRepo.findOne({ where: { id, organizationId } });
+    const link = await this.footerProductLinkRepo.findOne({ where: { id } });
     if (!link) {
       throw new NotFoundException('Footer product link not found');
     }
@@ -433,7 +427,7 @@ export class SiteSettingsService {
   }
 
   async deleteFooterProductLink(id: number, organizationId: string): Promise<void> {
-    const result = await this.footerProductLinkRepo.delete({ id, organizationId });
+    const result = await this.footerProductLinkRepo.delete({ id });
     if (result.affected === 0) {
       throw new NotFoundException('Footer product link not found');
     }
@@ -441,18 +435,17 @@ export class SiteSettingsService {
 
   async getFooterLegalLinks(organizationId: string): Promise<FooterLegalLink[]> {
     return this.footerLegalLinkRepo.find({ 
-      where: { organizationId },
       order: { order: 'ASC' }
     });
   }
 
   async createFooterLegalLink(organizationId: string, dto: CreateFooterLinkDto): Promise<FooterLegalLink> {
-    const link = this.footerLegalLinkRepo.create({ ...dto, organizationId });
+    const link = this.footerLegalLinkRepo.create(dto);
     return this.footerLegalLinkRepo.save(link);
   }
 
   async updateFooterLegalLink(id: number, organizationId: string, dto: UpdateFooterLinkDto): Promise<FooterLegalLink> {
-    const link = await this.footerLegalLinkRepo.findOne({ where: { id, organizationId } });
+    const link = await this.footerLegalLinkRepo.findOne({ where: { id } });
     if (!link) {
       throw new NotFoundException('Footer legal link not found');
     }
@@ -461,7 +454,7 @@ export class SiteSettingsService {
   }
 
   async deleteFooterLegalLink(id: number, organizationId: string): Promise<void> {
-    const result = await this.footerLegalLinkRepo.delete({ id, organizationId });
+    const result = await this.footerLegalLinkRepo.delete({ id });
     if (result.affected === 0) {
       throw new NotFoundException('Footer legal link not found');
     }
@@ -469,7 +462,7 @@ export class SiteSettingsService {
 
   // ========== ANNOUNCEMENT ==========
   async getAnnouncement(organizationId: string): Promise<Announcement> {
-    const announcement = await this.announcementRepo.findOne({ where: { organizationId } });
+    const announcement = await this.announcementRepo.findOne({ where: {} });
     if (!announcement) {
       throw new NotFoundException('Announcement not found');
     }
@@ -477,10 +470,10 @@ export class SiteSettingsService {
   }
 
   async updateAnnouncement(organizationId: string, dto: UpdateAnnouncementDto): Promise<Announcement> {
-    let announcement = await this.announcementRepo.findOne({ where: { organizationId } });
+    let announcement = await this.announcementRepo.findOne({ where: {} });
     
     if (!announcement) {
-      announcement = this.announcementRepo.create({ ...dto, organizationId });
+      announcement = this.announcementRepo.create(dto);
     } else {
       Object.assign(announcement, dto);
     }
@@ -490,7 +483,7 @@ export class SiteSettingsService {
 
   // ========== THEME ==========
   async getTheme(organizationId: string): Promise<Theme> {
-    const theme = await this.themeRepo.findOne({ where: { organizationId } });
+    const theme = await this.themeRepo.findOne({ where: {} });
     if (!theme) {
       throw new NotFoundException('Theme not found');
     }
@@ -498,10 +491,10 @@ export class SiteSettingsService {
   }
 
   async updateTheme(organizationId: string, dto: UpdateThemeDto): Promise<Theme> {
-    let theme = await this.themeRepo.findOne({ where: { organizationId } });
+    let theme = await this.themeRepo.findOne({ where: {} });
     
     if (!theme) {
-      theme = this.themeRepo.create({ ...dto, organizationId });
+      theme = this.themeRepo.create(dto);
     } else {
       Object.assign(theme, dto);
     }

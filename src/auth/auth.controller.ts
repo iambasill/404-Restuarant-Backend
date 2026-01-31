@@ -26,6 +26,7 @@ import { UserRegistrationEvent } from 'src/notification/events/user.registration
 import { verifyAccountDto } from './dtos/verify.account.dto';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { forgotPasswordEvent } from 'src/notification/events/forgot.password.event';
+import { GetUser } from './decorator/get-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -37,14 +38,17 @@ export class AuthController {
     private readonly config: ConfigService,
     private readonly otpService: OtpService,
     private readonly eventEmitter: EventEmitter2,
-  ) {}
+  ) { }
 
-  @PublicRoute()
+
   @Post('register')
-  async createUser(@Body() req: CreateUserDto) {
+  async createUser(@Body() req: CreateUserDto,
+    @GetUser('organizationId') organizationId: string
+  ) {
+
     try {
       req.password = await this.hashingProvider.createHash(req.password);
-      await this.userService.createUser(req);
+      await this.userService.createUser(req, organizationId);
 
       this.eventEmitter.emit(
         'user.created',
@@ -108,7 +112,8 @@ export class AuthController {
     return {
       message: 'Login successful',
       status: 'active',
-      token: token
+      role: user.role,
+      token: token,
     };
   }
 

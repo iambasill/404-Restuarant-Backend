@@ -14,14 +14,14 @@ export class UserService {
   /**
    * Create a new user
    */
-  public async createUser(req: CreateUserDto): Promise<User> {
-    const existingUser = await this.userRepository.findOne({ where: { email: req.email } });
+  public async createUser(req: CreateUserDto, organizationId:string): Promise<User> {
+    const existingUser = await this.userRepository.findOne({ where: { email: req.email, organizationId:organizationId } });
     if (existingUser) {
       throw new BadRequestException('User with this email already exists');
     }
 
     try {
-      const user = this.userRepository.create(req);
+      const user = this.userRepository.create({organizationId, ...req});
       return await this.userRepository.save(user);
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY' || error.code === '23505') {
@@ -38,18 +38,13 @@ export class UserService {
     return await this.userRepository.findOne({ where: { email } });
   }
 
-  /**
-   * Find user by email or phone (returns null if not found)
-   */
-  public async findUser(email?: string, phoneNumber?: string): Promise<User | null> {
-    const whereCondition: any = {};
-    if (email) whereCondition.email = email;
-    if (phoneNumber) whereCondition.phoneNumber = phoneNumber;
-    
-    if (Object.keys(whereCondition).length === 0) return null;
-    
-    return await this.userRepository.findOne({ where: whereCondition });
+    public async findById(id: string): Promise<User | null> {
+    return await this.userRepository.findOne({ 
+      where: { id },
+      select: ['id', 'email', 'firstName', 'lastName', 'role', 'status','organizationId'] 
+    });
   }
+
 
   /**
    * Get user by email (throws if not found)

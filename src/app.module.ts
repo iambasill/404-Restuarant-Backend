@@ -8,6 +8,9 @@ import { ConfigModule } from '@nestjs/config';
 import { NotificationModule } from './notification/notification.module';
 import { OtpModule } from './otp/otp.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { MenuModule } from './menu/menu.module';
+import { SiteSettingsModule } from './dashboard/site-settings.module';
+import { OrganizationModule } from './organization/organization.module';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development').trim();
 console.log(`Running in ${NODE_ENV} mode`);
@@ -24,6 +27,9 @@ console.log(`Running in ${NODE_ENV} mode`);
     UserModule,
     NotificationModule,
     OtpModule,
+    MenuModule,
+    SiteSettingsModule,
+    OrganizationModule
   ],
   controllers: [AppController],
   providers: [AppService],

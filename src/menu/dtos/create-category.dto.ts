@@ -25,7 +25,5 @@ export class CreateCategoryDto {
   @IsOptional()
   isActive?: boolean;
 
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
+
 }

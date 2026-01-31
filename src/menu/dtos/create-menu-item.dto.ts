@@ -69,7 +69,4 @@ export class CreateMenuItemDto {
   @Min(0)
   calories?: number;
 
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }

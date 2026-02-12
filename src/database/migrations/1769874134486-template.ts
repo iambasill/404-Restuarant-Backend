@@ -3,10 +3,10 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-    
 
-            // Insert default Contact
-            await queryRunner.query(`
+
+        // Insert default Contact
+        await queryRunner.query(`
                 INSERT INTO contact (email, phone, address, "updatedAt")
                 VALUES (
                     'contact@example.com',
@@ -17,8 +17,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Location
-            await queryRunner.query(`
+        // Insert default Location
+        await queryRunner.query(`
                 INSERT INTO location (title, subtitle, "mapUrl", "buttonText", "updatedAt")
                 VALUES (
                     'Find Us Here',
@@ -30,8 +30,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Stats
-            await queryRunner.query(`
+        // Insert default Stats
+        await queryRunner.query(`
                 INSERT INTO stats (title, "updatedAt")
                 VALUES (
                     'Our Achievements',
@@ -40,8 +40,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Menu Section
-            await queryRunner.query(`
+        // Insert default Menu Section
+        await queryRunner.query(`
                 INSERT INTO menu_section (title, "buttonText", "updatedAt")
                 VALUES (
                     'Our Menu',
@@ -51,8 +51,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Why Choose Us
-            await queryRunner.query(`
+        // Insert default Why Choose Us
+        await queryRunner.query(`
                 INSERT INTO why_choose_us (
                     title, 
                     subtitle, 
@@ -72,8 +72,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Newsletter
-            await queryRunner.query(`
+        // Insert default Newsletter
+        await queryRunner.query(`
                 INSERT INTO newsletter (
                     title, 
                     placeholder, 
@@ -91,8 +91,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Testimonials
-            await queryRunner.query(`
+        // Insert default Testimonials
+        await queryRunner.query(`
                 INSERT INTO testimonials (title, "updatedAt")
                 VALUES (
                     'What Our Customers Say',
@@ -101,8 +101,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Footer
-            await queryRunner.query(`
+        // Insert default Footer
+        await queryRunner.query(`
                 INSERT INTO footer (
                     "productsTitle",
                     "legalTitle",
@@ -120,8 +120,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Announcement
-            await queryRunner.query(`
+        // Insert default Announcement
+        await queryRunner.query(`
                 INSERT INTO announcement (
                     "isActive",
                     title,
@@ -143,8 +143,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Theme
-            await queryRunner.query(`
+        // Insert default Theme
+        await queryRunner.query(`
                 INSERT INTO theme (
                     "primaryColor",
                     "secondaryColor",
@@ -162,8 +162,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Dashboard Hero (if this entity exists)
-            await queryRunner.query(`
+        // Insert default Dashboard Hero (if this entity exists)
+        await queryRunner.query(`
                 INSERT INTO dashboard_hero (
                     title,
                     "subTitle",
@@ -181,8 +181,8 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Dashboard Branding (if this entity exists - note table name might be different)
-            await queryRunner.query(`
+        // Insert default Dashboard Branding (if this entity exists - note table name might be different)
+        await queryRunner.query(`
                 INSERT INTO dashboard_branding (
                     name,
                     "logo_url",
@@ -196,16 +196,16 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 ON CONFLICT DO NOTHING
             `);
 
-            // Insert default Nav Items
-            const navItems = [
-                { name: 'Home', link: '/', order: 1 },
-                { name: 'About', link: '/about', order: 2 },
-                { name: 'Menu', link: '/menu', order: 3 },
-                { name: 'Contact', link: '/contact', order: 4 },
-            ];
+        // Insert default Nav Items
+        const navItems = [
+            { name: 'Home', link: '/', order: 1 },
+            { name: 'About', link: '/about', order: 2 },
+            { name: 'Menu', link: '/menu', order: 3 },
+            { name: 'Contact', link: '/contact', order: 4 },
+        ];
 
-            for (const item of navItems) {
-                await queryRunner.query(`
+        for (const item of navItems) {
+            await queryRunner.query(`
                     INSERT INTO nav_items (name, link, "order", "isActive",  "updatedAt")
                     VALUES (
                         '${item.name}',
@@ -216,47 +216,47 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     )
                     ON CONFLICT DO NOTHING
                 `);
-            }
+        }
 
-            // Insert default Footer Product Links
-            const productLinks = [
-                { name: 'Product 1', link: '/product-1', order: 1 },
-                { name: 'Product 2', link: '/product-2', order: 2 },
-                { name: 'Product 3', link: '/product-3', order: 3 },
-            ];
+        // Insert default Footer Product Links
+        const productLinks = [
+            { name: 'Product 1', link: '/product-1', order: 1 },
+            { name: 'Product 2', link: '/product-2', order: 2 },
+            { name: 'Product 3', link: '/product-3', order: 3 },
+        ];
 
-            for (const link of productLinks) {
-                await queryRunner.query(`
+        for (const link of productLinks) {
+            await queryRunner.query(`
                     INSERT INTO footer_product_links (name, link, "order")
                     VALUES (
                         '${link.name}',
                         '${link.link}',
-                        ${link.order},
+                        ${link.order}
                     )
                     ON CONFLICT DO NOTHING
                 `);
-            }
+        }
 
-            // Insert default Footer Legal Links
-            const legalLinks = [
-                { name: 'Privacy Policy', link: '/privacy', order: 1 },
-                { name: 'Terms of Service', link: '/terms', order: 2 },
-                { name: 'Cookie Policy', link: '/cookies', order: 3 },
-            ];
+        // Insert default Footer Legal Links
+        const legalLinks = [
+            { name: 'Privacy Policy', link: '/privacy', order: 1 },
+            { name: 'Terms of Service', link: '/terms', order: 2 },
+            { name: 'Cookie Policy', link: '/cookies', order: 3 },
+        ];
 
-            for (const link of legalLinks) {
-                await queryRunner.query(`
+        for (const link of legalLinks) {
+            await queryRunner.query(`
                     INSERT INTO footer_legal_links (name, link, "order")
                     VALUES (
                         '${link.name}',
                         '${link.link}',
-                        ${link.order},
+                        ${link.order}
                     )
                     ON CONFLICT DO NOTHING
                 `);
-            }
         }
+    }
 
-    public async down(queryRunner: QueryRunner): Promise<void>{}
+    public async down(queryRunner: QueryRunner): Promise<void> { }
 }
 

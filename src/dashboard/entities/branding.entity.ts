@@ -1,4 +1,3 @@
-import { Organization } from 'src/organization/entities/organisation.entity';
 import {
     Column,
     Entity,
@@ -20,13 +19,6 @@ export class DashBoardBranding {
         name: "logo_url"
     })
     logoUrl: string
-
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
-
-    @Column({ type: 'uuid' })
-    organizationId: string;
 
     @UpdateDateColumn()
     updatedAt: Date;

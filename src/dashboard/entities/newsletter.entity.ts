@@ -1,4 +1,3 @@
-import { Organization } from 'src/organization/entities/organisation.entity';
 import {
     Column,
     Entity,
@@ -25,12 +24,7 @@ export class Newsletter {
     @Column('text')
     backgroundImage: string;
 
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
 
-    @Column({ type: 'uuid' })
-    organizationId: string;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
@@ -48,12 +42,6 @@ export class NewsletterSubscriber {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     subscribedAt: Date;
 
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
-
-    @Column({ type: 'uuid' })
-    organizationId: string;
 
     @UpdateDateColumn()
     updatedAt: Date;

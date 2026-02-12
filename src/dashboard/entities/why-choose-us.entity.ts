@@ -1,5 +1,3 @@
-
-import { Organization } from 'src/organization/entities/organisation.entity';
 import {
     Column,
     Entity,
@@ -27,12 +25,7 @@ export class WhyChooseUs {
 
     @Column('text')
     contentParagraph2: string;
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
 
-    @Column({ type: 'uuid' })
-    organizationId: string;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
@@ -52,12 +45,6 @@ export class WhyChooseUsItem {
     @Column({ default: 1 })
     order: number;
 
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
-
-    @Column({ type: 'uuid' })
-    organizationId: string;
 }
 
 @Entity('why_choose_us_checks')
@@ -71,10 +58,5 @@ export class WhyChooseUsCheck {
     @Column({ default: 1 })
     order: number;
 
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
 
-    @Column({ type: 'uuid' })
-    organizationId: string;
 }

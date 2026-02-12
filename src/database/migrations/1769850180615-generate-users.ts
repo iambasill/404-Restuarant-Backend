@@ -4,41 +4,7 @@ import * as bcrypt from "bcrypt";
 export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         const hashedPassword = await bcrypt.hash('password', 10);
-        
-        const organizationResult = await queryRunner.query(`
-            INSERT INTO organizations (
-                id,
-                name,
-                slug,
-                description,
-                "primaryEmail",
-                "primaryPhone",
-                address,
-                status,
-                currency,
-                timezone,
-                plan,
-                "createdAt",
-                "updatedAt"
-            ) VALUES (
-                gen_random_uuid(),
-                'The Gourmet Kitchen',
-                'the-gourmet-kitchen',
-                'A fine dining restaurant offering exquisite culinary experiences',
-                'info@gourmetkitchen.com',
-                '+1-555-0123',
-                '123 Main Street, Downtown, NY 10001',
-                'active',
-                'USD',
-                'America/New_York',
-                'premium',
-                NOW(),
-                NOW()
-            )
-            RETURNING id
-        `);
-        
-        const organizationId = organizationResult[0].id;
+    
         
         // Create users with different roles
         await queryRunner.query(`
@@ -51,7 +17,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 role,
                 status,
                 timezone,
-                "organizationId",
                 "createdAt",
                 "updatedAt"
             ) VALUES 
@@ -65,7 +30,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 'admin',
                 'active',
                 'America/New_York',
-                '${organizationId}',
                 NOW(),
                 NOW()
             ),
@@ -79,7 +43,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 'manager',
                 'active',
                 'America/New_York',
-                '${organizationId}',
                 NOW(),
                 NOW()
             ),
@@ -93,7 +56,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 'chef',
                 'active',
                 'America/New_York',
-                '${organizationId}',
                 NOW(),
                 NOW()
             ),
@@ -107,7 +69,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 'waiter',
                 'active',
                 'America/New_York',
-                '${organizationId}',
                 NOW(),
                 NOW()
             ),
@@ -121,7 +82,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 'host',
                 'active',
                 'America/New_York',
-                '${organizationId}',
                 NOW(),
                 NOW()
             ),
@@ -135,7 +95,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 'user',
                 'active',
                 'America/New_York',
-                '${organizationId}',
                 NOW(),
                 NOW()
             )
@@ -154,12 +113,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 'host@app.com',
                 'user@app.com'
             )
-        `);
-        
-        // Delete the organization
-        await queryRunner.query(`
-            DELETE FROM organizations 
-            WHERE slug = 'the-gourmet-kitchen'
         `);
     }
 }

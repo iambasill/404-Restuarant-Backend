@@ -1,4 +1,3 @@
-import { Organization } from 'src/organization/entities/organisation.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
 
@@ -18,13 +17,6 @@ export class Location {
 
   @Column()
   buttonText: string;
-
-  @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'organizationId' })
-  organization: Organization;
-
-  @Column({ type: 'uuid' })
-  organizationId: string;
 
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

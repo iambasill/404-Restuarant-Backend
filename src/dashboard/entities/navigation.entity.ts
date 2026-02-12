@@ -1,4 +1,3 @@
-import { Organization } from 'src/organization/entities/organisation.entity';
 import {
     Column,
     Entity,
@@ -26,12 +25,6 @@ export class NavItem {
     @Column({ default: true })
     isActive: boolean;
 
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
-
-    @Column({ type: 'uuid' })
-    organizationId: string;
 
     @UpdateDateColumn()
     updatedAt: Date;

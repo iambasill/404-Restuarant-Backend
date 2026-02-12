@@ -13,9 +13,7 @@ export class CreateFooterLinkDto {
   @IsOptional()
   order?: number;
 
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
+
 }
 
 export class UpdateFooterLinkDto {

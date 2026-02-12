@@ -17,9 +17,6 @@ export class CreateNavItemDto {
   @IsOptional()
   isActive?: boolean;
 
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }
 
 export class UpdateNavItemDto {

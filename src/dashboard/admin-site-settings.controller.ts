@@ -34,23 +34,23 @@ export class AdminSiteSettingsController {
     // ========== GROUPED ENDPOINTS (NO MORE .catch(() => null)) ==========
 
     @Get('overview')
-    async getOverview(@GetUser("organizationId") orgId: string) {
+    async getOverview() {
         const [contact, theme, announcement] = await Promise.all([
-            this.siteSettingsService.getContact(orgId),
-            this.siteSettingsService.getTheme(orgId),
-            this.siteSettingsService.getAnnouncement(orgId),
+            this.siteSettingsService.getContact(),
+            this.siteSettingsService.getTheme(),
+            this.siteSettingsService.getAnnouncement(),
         ]);
 
         return { contact, theme, announcement };
     }
 
     @Get('hero-section')
-    async getHeroSection(@GetUser("organizationId") orgId: string) {
+    async getHeroSection() {
         const [location, stats, statItems, announcement] = await Promise.all([
-            this.siteSettingsService.getLocation(orgId),
-            this.siteSettingsService.getStats(orgId),
-            this.siteSettingsService.getStatItems(orgId),
-            this.siteSettingsService.getAnnouncement(orgId),
+            this.siteSettingsService.getLocation(),
+            this.siteSettingsService.getStats(),
+            this.siteSettingsService.getStatItems(),
+            this.siteSettingsService.getAnnouncement(),
         ]);
 
         return {
@@ -61,7 +61,7 @@ export class AdminSiteSettingsController {
     }
 
     @Get('content-sections')
-    async getContentSections(@GetUser("organizationId") orgId: string) {
+    async getContentSections() {
         const [
             whyChooseUs,
             whyChooseUsItems,
@@ -70,12 +70,12 @@ export class AdminSiteSettingsController {
             testimonialItems,
             menuSection,
         ] = await Promise.all([
-            this.siteSettingsService.getWhyChooseUs(orgId),
-            this.siteSettingsService.getWhyChooseUsItems(orgId),
-            this.siteSettingsService.getWhyChooseUsChecks(orgId),
-            this.siteSettingsService.getTestimonials(orgId),
-            this.siteSettingsService.getTestimonialItems(orgId),
-            this.siteSettingsService.getMenuSection(orgId),
+            this.siteSettingsService.getWhyChooseUs(),
+            this.siteSettingsService.getWhyChooseUsItems(),
+            this.siteSettingsService.getWhyChooseUsChecks(),
+            this.siteSettingsService.getTestimonials(),
+            this.siteSettingsService.getTestimonialItems(),
+            this.siteSettingsService.getMenuSection(),
         ]);
 
         return {
@@ -93,12 +93,12 @@ export class AdminSiteSettingsController {
     }
 
     @Get('layout')
-    async getLayout(@GetUser("organizationId") orgId: string) {
+    async getLayout() {
         const [navItems, footer, productLinks, legalLinks] = await Promise.all([
-            this.siteSettingsService.getNavItems(orgId),
-            this.siteSettingsService.getFooter(orgId),
-            this.siteSettingsService.getFooterProductLinks(orgId),
-            this.siteSettingsService.getFooterLegalLinks(orgId),
+            this.siteSettingsService.getNavItems(),
+            this.siteSettingsService.getFooter(),
+            this.siteSettingsService.getFooterProductLinks(),
+            this.siteSettingsService.getFooterLegalLinks(),
         ]);
 
         return {
@@ -112,10 +112,10 @@ export class AdminSiteSettingsController {
     }
 
     @Get('newsletter-settings')
-    async getNewsletterSettings(@GetUser("organizationId") orgId: string) {
+    async getNewsletterSettings() {
         const [newsletter, subscribers] = await Promise.all([
-            this.siteSettingsService.getNewsletter(orgId),
-            this.siteSettingsService.getSubscribers(orgId),
+            this.siteSettingsService.getNewsletter(),
+            this.siteSettingsService.getSubscribers(),
         ]);
 
         return {
@@ -128,197 +128,197 @@ export class AdminSiteSettingsController {
     // ========== INDIVIDUAL ENDPOINTS (unchanged) ==========
 
     @Put('contact')
-    updateContact(@GetUser("organizationId") orgId: string, @Body() dto: UpdateContactDto) {
-        return this.siteSettingsService.updateContact(orgId, dto);
+    updateContact( @Body() dto: UpdateContactDto) {
+        return this.siteSettingsService.updateContact( dto);
     }
 
     @Put('location')
-    updateLocation(@GetUser("organizationId") orgId: string, @Body() dto: UpdateLocationDto) {
-        return this.siteSettingsService.updateLocation(orgId, dto);
+    updateLocation( @Body() dto: UpdateLocationDto) {
+        return this.siteSettingsService.updateLocation( dto);
     }
 
     @Put('stats')
-    updateStats(@GetUser("organizationId") orgId: string, @Body() dto: UpdateStatsDto) {
-        return this.siteSettingsService.updateStats(orgId, dto);
+    updateStats( @Body() dto: UpdateStatsDto) {
+        return this.siteSettingsService.updateStats( dto);
     }
 
     @Get('stats/items')
-    getStatItems(@GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.getStatItems(orgId);
+    getStatItems() {
+        return this.siteSettingsService.getStatItems();
     }
 
     @Post('stats/items')
-    createStatItem(@GetUser("organizationId") orgId: string, @Body() dto: CreateStatItemDto) {
-        return this.siteSettingsService.createStatItem(orgId, dto);
+    createStatItem( @Body() dto: CreateStatItemDto) {
+        return this.siteSettingsService.createStatItem( dto);
     }
 
     @Put('stats/items/:id')
-    updateStatItem(@Param('id') id: number, @GetUser("organizationId") orgId: string, @Body() dto: UpdateStatItemDto) {
-        return this.siteSettingsService.updateStatItem(id, orgId, dto);
+    updateStatItem(@Param('id') id: number,  @Body() dto: UpdateStatItemDto) {
+        return this.siteSettingsService.updateStatItem(id,  dto);
     }
 
     @Delete('stats/items/:id')
-    deleteStatItem(@Param('id') id: number, @GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.deleteStatItem(id, orgId);
+    deleteStatItem(@Param('id') id: number, ) {
+        return this.siteSettingsService.deleteStatItem(id);
     }
 
     @Put('menu-section')
-    updateMenuSection(@GetUser("organizationId") orgId: string, @Body() dto: UpdateMenuSectionDto) {
-        return this.siteSettingsService.updateMenuSection(orgId, dto);
+    updateMenuSection( @Body() dto: UpdateMenuSectionDto) {
+        return this.siteSettingsService.updateMenuSection( dto);
     }
 
     @Put('why-choose-us')
-    updateWhyChooseUs(@GetUser("organizationId") orgId: string, @Body() dto: UpdateWhyChooseUsDto) {
-        return this.siteSettingsService.updateWhyChooseUs(orgId, dto);
+    updateWhyChooseUs( @Body() dto: UpdateWhyChooseUsDto) {
+        return this.siteSettingsService.updateWhyChooseUs( dto);
     }
 
     @Get('why-choose-us/items')
-    getWhyChooseUsItems(@GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.getWhyChooseUsItems(orgId);
+    getWhyChooseUsItems() {
+        return this.siteSettingsService.getWhyChooseUsItems();
     }
 
     @Post('why-choose-us/items')
-    createWhyChooseUsItem(@GetUser("organizationId") orgId: string, @Body() dto: CreateWhyChooseUsItemDto) {
-        return this.siteSettingsService.createWhyChooseUsItem(orgId, dto);
+    createWhyChooseUsItem( @Body() dto: CreateWhyChooseUsItemDto) {
+        return this.siteSettingsService.createWhyChooseUsItem( dto);
     }
 
     @Put('why-choose-us/items/:id')
-    updateWhyChooseUsItem(@Param('id') id: number, @GetUser("organizationId") orgId: string, @Body() dto: UpdateWhyChooseUsItemDto) {
-        return this.siteSettingsService.updateWhyChooseUsItem(id, orgId, dto);
+    updateWhyChooseUsItem(@Param('id') id: number,  @Body() dto: UpdateWhyChooseUsItemDto) {
+        return this.siteSettingsService.updateWhyChooseUsItem(id,  dto);
     }
 
     @Delete('why-choose-us/items/:id')
-    deleteWhyChooseUsItem(@Param('id') id: number, @GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.deleteWhyChooseUsItem(id, orgId);
+    deleteWhyChooseUsItem(@Param('id') id: number, ) {
+        return this.siteSettingsService.deleteWhyChooseUsItem(id);
     }
 
     @Get('why-choose-us/checks')
-    getWhyChooseUsChecks(@GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.getWhyChooseUsChecks(orgId);
+    getWhyChooseUsChecks() {
+        return this.siteSettingsService.getWhyChooseUsChecks();
     }
 
     @Post('why-choose-us/checks')
-    createWhyChooseUsCheck(@GetUser("organizationId") orgId: string, @Body() dto: CreateWhyChooseUsCheckDto) {
-        return this.siteSettingsService.createWhyChooseUsCheck(orgId, dto);
+    createWhyChooseUsCheck( @Body() dto: CreateWhyChooseUsCheckDto) {
+        return this.siteSettingsService.createWhyChooseUsCheck( dto);
     }
 
     @Put('why-choose-us/checks/:id')
-    updateWhyChooseUsCheck(@Param('id') id: number, @GetUser("organizationId") orgId: string, @Body() dto: UpdateWhyChooseUsCheckDto) {
-        return this.siteSettingsService.updateWhyChooseUsCheck(id, orgId, dto);
+    updateWhyChooseUsCheck(@Param('id') id: number,  @Body() dto: UpdateWhyChooseUsCheckDto) {
+        return this.siteSettingsService.updateWhyChooseUsCheck(id,  dto);
     }
 
     @Delete('why-choose-us/checks/:id')
-    deleteWhyChooseUsCheck(@Param('id') id: number, @GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.deleteWhyChooseUsCheck(id, orgId);
+    deleteWhyChooseUsCheck(@Param('id') id: number, ) {
+        return this.siteSettingsService.deleteWhyChooseUsCheck(id);
     }
 
     @Put('newsletter')
-    updateNewsletter(@GetUser("organizationId") orgId: string, @Body() dto: UpdateNewsletterDto) {
-        return this.siteSettingsService.updateNewsletter(orgId, dto);
+    updateNewsletter( @Body() dto: UpdateNewsletterDto) {
+        return this.siteSettingsService.updateNewsletter( dto);
     }
 
     @Get('newsletter/subscribers')
-    getSubscribers(@GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.getSubscribers(orgId);
+    getSubscribers() {
+        return this.siteSettingsService.getSubscribers();
     }
 
     @Put('testimonials')
-    updateTestimonials(@GetUser("organizationId") orgId: string, @Body() dto: UpdateTestimonialsDto) {
-        return this.siteSettingsService.updateTestimonials(orgId, dto);
+    updateTestimonials( @Body() dto: UpdateTestimonialsDto) {
+        return this.siteSettingsService.updateTestimonials( dto);
     }
 
     @Get('testimonials/items')
-    getAllTestimonialItems(@GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.getAllTestimonialItems(orgId);
+    getAllTestimonialItems() {
+        return this.siteSettingsService.getAllTestimonialItems();
     }
 
     @Post('testimonials/items')
-    createTestimonialItem(@GetUser("organizationId") orgId: string, @Body() dto: CreateTestimonialItemDto) {
-        return this.siteSettingsService.createTestimonialItem(orgId, dto);
+    createTestimonialItem( @Body() dto: CreateTestimonialItemDto) {
+        return this.siteSettingsService.createTestimonialItem( dto);
     }
 
     @Put('testimonials/items/:id')
-    updateTestimonialItem(@Param('id') id: number, @GetUser("organizationId") orgId: string, @Body() dto: UpdateTestimonialItemDto) {
-        return this.siteSettingsService.updateTestimonialItem(id, orgId, dto);
+    updateTestimonialItem(@Param('id') id: number,  @Body() dto: UpdateTestimonialItemDto) {
+        return this.siteSettingsService.updateTestimonialItem(id,  dto);
     }
 
     @Delete('testimonials/items/:id')
-    deleteTestimonialItem(@Param('id') id: number, @GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.deleteTestimonialItem(id, orgId);
+    deleteTestimonialItem(@Param('id') id: number, ) {
+        return this.siteSettingsService.deleteTestimonialItem(id);
     }
 
     @Get('navigation')
-    getAllNavItems(@GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.getAllNavItems(orgId);
+    getAllNavItems() {
+        return this.siteSettingsService.getAllNavItems();
     }
 
     @Post('navigation')
-    createNavItem(@GetUser("organizationId") orgId: string, @Body() dto: CreateNavItemDto) {
-        return this.siteSettingsService.createNavItem(orgId, dto);
+    createNavItem( @Body() dto: CreateNavItemDto) {
+        return this.siteSettingsService.createNavItem( dto);
     }
 
     @Put('navigation/:id')
-    updateNavItem(@Param('id') id: number, @GetUser("organizationId") orgId: string, @Body() dto: UpdateNavItemDto) {
-        return this.siteSettingsService.updateNavItem(id, orgId, dto);
+    updateNavItem(@Param('id') id: number,  @Body() dto: UpdateNavItemDto) {
+        return this.siteSettingsService.updateNavItem(id,  dto);
     }
 
     @Delete('navigation/:id')
-    deleteNavItem(@Param('id') id: number, @GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.deleteNavItem(id, orgId);
+    deleteNavItem(@Param('id') id: number, ) {
+        return this.siteSettingsService.deleteNavItem(id);
     }
 
     @Put('footer')
-    updateFooter(@GetUser("organizationId") orgId: string, @Body() dto: UpdateFooterDto) {
-        return this.siteSettingsService.updateFooter(orgId, dto);
+    updateFooter( @Body() dto: UpdateFooterDto) {
+        return this.siteSettingsService.updateFooter( dto);
     }
 
     @Get('footer/product-links')
-    getFooterProductLinks(@GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.getFooterProductLinks(orgId);
+    getFooterProductLinks() {
+        return this.siteSettingsService.getFooterProductLinks();
     }
 
     @Post('footer/product-links')
-    createFooterProductLink(@GetUser("organizationId") orgId: string, @Body() dto: CreateFooterLinkDto) {
-        return this.siteSettingsService.createFooterProductLink(orgId, dto);
+    createFooterProductLink( @Body() dto: CreateFooterLinkDto) {
+        return this.siteSettingsService.createFooterProductLink( dto);
     }
 
     @Put('footer/product-links/:id')
-    updateFooterProductLink(@Param('id') id: number, @GetUser("organizationId") orgId: string, @Body() dto: UpdateFooterLinkDto) {
-        return this.siteSettingsService.updateFooterProductLink(id, orgId, dto);
+    updateFooterProductLink(@Param('id') id: number,  @Body() dto: UpdateFooterLinkDto) {
+        return this.siteSettingsService.updateFooterProductLink(id,  dto);
     }
 
     @Delete('footer/product-links/:id')
-    deleteFooterProductLink(@Param('id') id: number, @GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.deleteFooterProductLink(id, orgId);
+    deleteFooterProductLink(@Param('id') id: number, ) {
+        return this.siteSettingsService.deleteFooterProductLink(id);
     }
 
     @Get('footer/legal-links')
-    getFooterLegalLinks(@GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.getFooterLegalLinks(orgId);
+    getFooterLegalLinks() {
+        return this.siteSettingsService.getFooterLegalLinks();
     }
 
     @Post('footer/legal-links')
-    createFooterLegalLink(@GetUser("organizationId") orgId: string, @Body() dto: CreateFooterLinkDto) {
-        return this.siteSettingsService.createFooterLegalLink(orgId, dto);
+    createFooterLegalLink( @Body() dto: CreateFooterLinkDto) {
+        return this.siteSettingsService.createFooterLegalLink( dto);
     }
 
     @Put('footer/legal-links/:id')
-    updateFooterLegalLink(@Param('id') id: number, @GetUser("organizationId") orgId: string, @Body() dto: UpdateFooterLinkDto) {
-        return this.siteSettingsService.updateFooterLegalLink(id, orgId, dto);
+    updateFooterLegalLink(@Param('id') id: number,  @Body() dto: UpdateFooterLinkDto) {
+        return this.siteSettingsService.updateFooterLegalLink(id,  dto);
     }
 
     @Delete('footer/legal-links/:id')
-    deleteFooterLegalLink(@Param('id') id: number, @GetUser("organizationId") orgId: string) {
-        return this.siteSettingsService.deleteFooterLegalLink(id, orgId);
+    deleteFooterLegalLink(@Param('id') id: number, ) {
+        return this.siteSettingsService.deleteFooterLegalLink(id);
     }
 
     @Put('announcement')
-    updateAnnouncement(@GetUser("organizationId") orgId: string, @Body() dto: UpdateAnnouncementDto) {
-        return this.siteSettingsService.updateAnnouncement(orgId, dto);
+    updateAnnouncement( @Body() dto: UpdateAnnouncementDto) {
+        return this.siteSettingsService.updateAnnouncement( dto);
     }
 
     @Put('theme')
-    updateTheme(@GetUser("organizationId") orgId: string, @Body() dto: UpdateThemeDto) {
-        return this.siteSettingsService.updateTheme(orgId, dto);
+    updateTheme( @Body() dto: UpdateThemeDto) {
+        return this.siteSettingsService.updateTheme( dto);
     }
 }

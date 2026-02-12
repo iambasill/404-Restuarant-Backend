@@ -3,22 +3,15 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        
-        const organizations = await queryRunner.query(
-            `SELECT id FROM organizations`  
-        );
-
-        for (const org of organizations) {
-            const orgId = org.id;
+    
 
             // Insert default Contact
             await queryRunner.query(`
-                INSERT INTO contact (email, phone, address, "organizationId", "updatedAt")
+                INSERT INTO contact (email, phone, address, "updatedAt")
                 VALUES (
                     'contact@example.com',
                     '+1 (555) 000-0000',
                     '123 Main Street, City, State 12345',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -26,13 +19,12 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
 
             // Insert default Location
             await queryRunner.query(`
-                INSERT INTO location (title, subtitle, "mapUrl", "buttonText", "organizationId", "updatedAt")
+                INSERT INTO location (title, subtitle, "mapUrl", "buttonText", "updatedAt")
                 VALUES (
                     'Find Us Here',
                     'Visit our location for the best experience',
                     'https://maps.google.com',
                     'Get Directions',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -40,10 +32,9 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
 
             // Insert default Stats
             await queryRunner.query(`
-                INSERT INTO stats (title, "organizationId", "updatedAt")
+                INSERT INTO stats (title, "updatedAt")
                 VALUES (
                     'Our Achievements',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -51,11 +42,10 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
 
             // Insert default Menu Section
             await queryRunner.query(`
-                INSERT INTO menu_section (title, "buttonText", "organizationId", "updatedAt")
+                INSERT INTO menu_section (title, "buttonText", "updatedAt")
                 VALUES (
                     'Our Menu',
                     'View Full Menu',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -69,7 +59,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     image, 
                     "contentParagraph1", 
                     "contentParagraph2",
-                    "organizationId",
                     "updatedAt"
                 )
                 VALUES (
@@ -78,7 +67,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     'https://via.placeholder.com/600x400',
                     'We are committed to providing the best service possible. Our team works tirelessly to ensure your satisfaction.',
                     'With years of experience and a passion for excellence, we deliver results that exceed expectations.',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -91,7 +79,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     placeholder, 
                     "buttonText",
                     "backgroundImage",
-                    "organizationId",
                     "updatedAt"
                 )
                 VALUES (
@@ -99,7 +86,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     'Enter your email address',
                     'Subscribe',
                     'https://via.placeholder.com/1200x400',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -107,10 +93,9 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
 
             // Insert default Testimonials
             await queryRunner.query(`
-                INSERT INTO testimonials (title, "organizationId", "updatedAt")
+                INSERT INTO testimonials (title, "updatedAt")
                 VALUES (
                     'What Our Customers Say',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -123,7 +108,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     "legalTitle",
                     "contactTitle",
                     "acceptTitle",
-                    "organizationId",
                     "updatedAt"
                 )
                 VALUES (
@@ -131,7 +115,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     'Legal',
                     'Contact Us',
                     'We Accept',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -146,7 +129,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     image,
                     "buttonText",
                     "buttonLink",
-                    "organizationId",
                     "updatedAt"
                 )
                 VALUES (
@@ -156,7 +138,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     'https://via.placeholder.com/800x200',
                     'Learn More',
                     '#',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -169,7 +150,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     "secondaryColor",
                     "backgroundColor",
                     "textColor",
-                    "organizationId",
                     "updatedAt"
                 )
                 VALUES (
@@ -177,7 +157,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     '#111111',
                     '#000000',
                     '#ffffff',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -190,7 +169,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     "subTitle",
                     "buttonText",
                     "backgroundImage",
-                    "organizationId",
                     "updatedAt"
                 )
                 VALUES (
@@ -198,7 +176,6 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                     'Manage your business with ease',
                     'Get Started',
                     'https://via.placeholder.com/1920x600',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -209,13 +186,11 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
                 INSERT INTO dashboard_branding (
                     name,
                     "logo_url",
-                    "organizationId",
                     "updatedAt"
                 )
                 VALUES (
                     'Your Company',
                     'https://via.placeholder.com/200x60',
-                    '${orgId}',
                     CURRENT_TIMESTAMP
                 )
                 ON CONFLICT DO NOTHING
@@ -231,13 +206,12 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
 
             for (const item of navItems) {
                 await queryRunner.query(`
-                    INSERT INTO nav_items (name, link, "order", "isActive", "organizationId", "updatedAt")
+                    INSERT INTO nav_items (name, link, "order", "isActive",  "updatedAt")
                     VALUES (
                         '${item.name}',
                         '${item.link}',
                         ${item.order},
                         true,
-                        '${orgId}',
                         CURRENT_TIMESTAMP
                     )
                     ON CONFLICT DO NOTHING
@@ -253,12 +227,11 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
 
             for (const link of productLinks) {
                 await queryRunner.query(`
-                    INSERT INTO footer_product_links (name, link, "order", "organizationId")
+                    INSERT INTO footer_product_links (name, link, "order")
                     VALUES (
                         '${link.name}',
                         '${link.link}',
                         ${link.order},
-                        '${orgId}'
                     )
                     ON CONFLICT DO NOTHING
                 `);
@@ -273,35 +246,17 @@ export class SeedDefaultSiteSettings1769874134486 implements MigrationInterface 
 
             for (const link of legalLinks) {
                 await queryRunner.query(`
-                    INSERT INTO footer_legal_links (name, link, "order", "organizationId")
+                    INSERT INTO footer_legal_links (name, link, "order")
                     VALUES (
                         '${link.name}',
                         '${link.link}',
                         ${link.order},
-                        '${orgId}'
                     )
                     ON CONFLICT DO NOTHING
                 `);
             }
         }
-    }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        // Remove seeded data in reverse order (respecting foreign keys)
-        await queryRunner.query(`DELETE FROM footer_legal_links WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM footer_product_links WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM nav_items WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM dashboard_branding WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM dashboard_hero WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM theme WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM announcement WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM footer WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM testimonials WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM newsletter WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM why_choose_us WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM menu_section WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM stats WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM location WHERE "organizationId" IS NOT NULL`);
-        await queryRunner.query(`DELETE FROM contact WHERE "organizationId" IS NOT NULL`);
-    }
+    public async down(queryRunner: QueryRunner): Promise<void>{}
 }
+

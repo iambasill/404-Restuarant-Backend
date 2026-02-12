@@ -5,11 +5,8 @@ import { PublicRoute } from 'src/auth/decorator/allow-anonymous.decorator';
 
 @PublicRoute()
 @Controller('dashboard')
-
 export class SiteSettingsController {
-  
-  constructor(private readonly siteSettingsService: SiteSettingsService
-  ) {}
+  constructor(private readonly siteSettingsService: SiteSettingsService) {}
 
   @Get('')
   getAllSettings() {
@@ -56,7 +53,7 @@ export class SiteSettingsController {
     @Body() dto: SubscribeNewsletterDto,
     
   ) {
-    return this.siteSettingsService.subscribe(dto);
+    return this.siteSettingsService.subscribe( dto);
   }
 
   @Get('/testimonials')

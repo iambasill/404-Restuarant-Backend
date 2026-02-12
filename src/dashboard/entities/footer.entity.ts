@@ -1,4 +1,3 @@
-import { Organization } from 'src/organization/entities/organisation.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
 
@@ -19,12 +18,7 @@ export class Footer {
     @Column()
     acceptTitle: string;
 
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
 
-    @Column({ type: 'uuid' })
-    organizationId: string;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
@@ -44,12 +38,7 @@ export class FooterProductLink {
     @Column({ default: 1 })
     order: number;
 
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
 
-    @Column({ type: 'uuid' })
-    organizationId: string;
 }
 
 @Entity('footer_legal_links')
@@ -66,10 +55,4 @@ export class FooterLegalLink {
     @Column({ default: 1 })
     order: number;
 
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
-
-    @Column({ type: 'uuid' })
-    organizationId: string;
 }

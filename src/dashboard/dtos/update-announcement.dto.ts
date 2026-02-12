@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsBoolean, IsOptional, IsUrl, IsUUID } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean, IsOptional, IsUrl } from 'class-validator';
 
 export class UpdateAnnouncementDto {
   @IsBoolean()
@@ -24,9 +24,5 @@ export class UpdateAnnouncementDto {
   @IsString()
   @IsNotEmpty()
   buttonLink: string;
-
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }
 

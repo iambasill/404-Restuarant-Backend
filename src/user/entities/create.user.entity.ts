@@ -4,13 +4,10 @@ import {
   DeleteDateColumn,
   Entity,
   OneToMany,
-  ManyToOne,
-  JoinColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserSession } from './user.session.entity';
-import { Organization } from 'src/organization/entities/organisation.entity';
 
 @Entity()
 export class User {
@@ -66,14 +63,7 @@ export class User {
   })
   timezone?: string;
 
-  @ManyToOne(() => Organization, (organization) => organization.users, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'organizationId' })
-  organization: Organization;
 
-  @Column({ type: 'uuid' })
-  organizationId: string;
 
   @OneToMany(() => UserSession, (session) => session.user)
   sessions?: UserSession[];

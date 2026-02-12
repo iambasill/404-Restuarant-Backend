@@ -42,13 +42,11 @@ export class AuthController {
 
 
   @Post('register')
-  async createUser(@Body() req: CreateUserDto,
-    @GetUser('organizationId') organizationId: string
-  ) {
+  async createUser(@Body() req: CreateUserDto) {
 
     try {
       req.password = await this.hashingProvider.createHash(req.password);
-      await this.userService.createUser(req, organizationId);
+      await this.userService.createUser(req);
 
       this.eventEmitter.emit(
         'user.created',

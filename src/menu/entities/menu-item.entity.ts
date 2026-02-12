@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { MenuCategory } from './menu-category.entity';
-import { Organization } from 'src/organization/entities/organisation.entity';
 
 @Entity('menu_items')
 export class MenuItem {
@@ -57,13 +56,6 @@ export class MenuItem {
     @Column({ type: 'int', default: 0 })
     calories: number;
 
-
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
-
-    @Column({ type: 'uuid' })
-    organizationId: string;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsUrl, IsUUID, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
 
 export class UpdateWhyChooseUsDto {
   @IsString()
@@ -20,8 +20,4 @@ export class UpdateWhyChooseUsDto {
   @IsString()
   @IsNotEmpty()
   contentParagraph2: string;
-
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }

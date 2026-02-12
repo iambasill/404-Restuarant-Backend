@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsUrl, IsUUID, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
 
 export class UpdateNewsletterDto {
   @IsString()
@@ -16,8 +16,4 @@ export class UpdateNewsletterDto {
   @IsUrl()
   @IsNotEmpty()
   backgroundImage: string;
-
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsUUID, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class UpdateMenuSectionDto {
   @IsString()
@@ -8,8 +8,4 @@ export class UpdateMenuSectionDto {
   @IsString()
   @IsNotEmpty()
   buttonText: string;
-
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, IsUrl, Min, Max, IsUUID } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, IsUrl, Min, Max } from 'class-validator';
 
 export class CreateTestimonialItemDto {
   @IsString()
@@ -29,10 +29,6 @@ export class CreateTestimonialItemDto {
   @IsNumber()
   @IsOptional()
   order?: number;
-
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }
 
 export class UpdateTestimonialItemDto {

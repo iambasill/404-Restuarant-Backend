@@ -17,9 +17,9 @@ export class MenuService {
     private categoryRepo: Repository<MenuCategory>,
     @InjectRepository(MenuItem)
     private menuItemRepo: Repository<MenuItem>,
-  ) {}
+  ) { }
 
-  // ========== PUBLIC ENDPOINTS (No organization filter) ==========
+  // ========== PUBLIC ENDPOINTS ==========
 
   async getActiveCategories(): Promise<MenuCategory[]> {
     return this.categoryRepo.find({
@@ -122,9 +122,9 @@ export class MenuService {
     });
   }
 
-  // ========== ADMIN ENDPOINTS (With organization filter) ==========
+  // ========== ADMIN ENDPOINTS ==========
 
-  async createCategory(organizationId: string, dto: CreateCategoryDto): Promise<MenuCategory> {
+  async createCategory(dto: CreateCategoryDto): Promise<MenuCategory> {
     // Generate slug if not provided
     if (!dto.slug) {
       dto.slug = dto.name
@@ -133,30 +133,29 @@ export class MenuService {
         .replace(/^-|-$/g, '');
     }
 
-    // Check if slug already exists for this organization
+    // Check if slug already exists
     const existing = await this.categoryRepo.findOne({
-      where: { slug: dto.slug, organizationId },
+      where: { slug: dto.slug },
     });
 
     if (existing) {
       throw new BadRequestException('Category with this slug already exists');
     }
 
-    const category = this.categoryRepo.create({ ...dto, organizationId });
+    const category = this.categoryRepo.create(dto);
     return this.categoryRepo.save(category);
   }
 
-  async getAllCategories(organizationId: string): Promise<MenuCategory[]> {
+  async getAllCategories(): Promise<MenuCategory[]> {
     return this.categoryRepo.find({
-      where: { organizationId },
       relations: ['items'],
       order: { order: 'ASC' },
     });
   }
 
-  async getCategoryById(id: number, organizationId: string): Promise<MenuCategory> {
+  async getCategoryById(id: number): Promise<MenuCategory> {
     const category = await this.categoryRepo.findOne({
-      where: { id, organizationId },
+      where: { id },
       relations: ['items'],
     });
 
@@ -167,13 +166,13 @@ export class MenuService {
     return category;
   }
 
-  async updateCategory(id: number, organizationId: string, dto: UpdateCategoryDto): Promise<MenuCategory> {
-    const category = await this.getCategoryById(id, organizationId);
+  async updateCategory(id: number, dto: UpdateCategoryDto): Promise<MenuCategory> {
+    const category = await this.getCategoryById(id);
 
     // If updating slug, check for duplicates
     if (dto.slug && dto.slug !== category.slug) {
       const existing = await this.categoryRepo.findOne({
-        where: { slug: dto.slug, organizationId: category.organizationId },
+        where: { slug: dto.slug },
       });
 
       if (existing && existing.id !== id) {
@@ -185,12 +184,12 @@ export class MenuService {
     return this.categoryRepo.save(category);
   }
 
-  async deleteCategory(id: number, organizationId: string): Promise<void> {
-    const category = await this.getCategoryById(id, organizationId);
-    
+  async deleteCategory(id: number): Promise<void> {
+    await this.getCategoryById(id);
+
     // Check if category has items
-    const itemCount = await this.menuItemRepo.count({ 
-      where: { categoryId: id, organizationId } 
+    const itemCount = await this.menuItemRepo.count({
+      where: { categoryId: id }
     });
     if (itemCount > 0) {
       throw new BadRequestException(
@@ -198,30 +197,29 @@ export class MenuService {
       );
     }
 
-    await this.categoryRepo.softDelete({ id, organizationId });
+    await this.categoryRepo.softDelete({ id });
   }
 
-  async bulkUpdateCategoryOrder(organizationId: string, dto: BulkUpdateOrderDto): Promise<void> {
-    // Verify all items belong to this organization
+  async bulkUpdateCategoryOrder(dto: BulkUpdateOrderDto): Promise<void> {
     const categoryIds = dto.items.map(item => item.id);
     const categories = await this.categoryRepo.find({
-      where: { id: In(categoryIds), organizationId }
+      where: { id: In(categoryIds) }
     });
-    
+
     if (categories.length !== categoryIds.length) {
       throw new NotFoundException('One or more categories not found');
     }
 
     const updates = dto.items.map((item) =>
-      this.categoryRepo.update({ id: item.id, organizationId }, { order: item.order })
+      this.categoryRepo.update({ id: item.id }, { order: item.order })
     );
     await Promise.all(updates);
   }
 
-  async createMenuItem(organizationId: string, dto: CreateMenuItemDto): Promise<MenuItem> {
-    // Verify category exists and belongs to organization
+  async createMenuItem(dto: CreateMenuItemDto): Promise<MenuItem> {
+    // Verify category exists
     const category = await this.categoryRepo.findOne({
-      where: { id: dto.categoryId, organizationId },
+      where: { id: dto.categoryId },
     });
 
     if (!category) {
@@ -236,12 +234,11 @@ export class MenuService {
         .replace(/^-|-$/g, '');
     }
 
-    const menuItem = this.menuItemRepo.create({ ...dto, organizationId });
+    const menuItem = this.menuItemRepo.create(dto);
     return this.menuItemRepo.save(menuItem);
   }
 
   async getAllMenuItems(
-    organizationId: string,
     filters?: MenuFiltersDto,
   ): Promise<{ items: MenuItem[]; total: number; page: number; limit: number }> {
     const page = filters?.page || 1;
@@ -250,8 +247,7 @@ export class MenuService {
 
     const queryBuilder = this.menuItemRepo
       .createQueryBuilder('item')
-      .leftJoinAndSelect('item.category', 'category')
-      .where('item.organizationId = :organizationId', { organizationId });
+      .leftJoinAndSelect('item.category', 'category');
 
     // Apply filters
     if (filters?.category) {
@@ -311,9 +307,9 @@ export class MenuService {
     };
   }
 
-  async getMenuItemById(id: number, organizationId: string): Promise<MenuItem> {
+  async getMenuItemById(id: number): Promise<MenuItem> {
     const item = await this.menuItemRepo.findOne({
-      where: { id, organizationId },
+      where: { id },
       relations: ['category'],
     });
 
@@ -324,13 +320,13 @@ export class MenuService {
     return item;
   }
 
-  async updateMenuItem(id: number, organizationId: string, dto: UpdateMenuItemDto): Promise<MenuItem> {
-    const item = await this.getMenuItemById(id, organizationId);
+  async updateMenuItem(id: number, dto: UpdateMenuItemDto): Promise<MenuItem> {
+    const item = await this.getMenuItemById(id);
 
-    // If updating category, verify it exists and belongs to same organization
+    // If updating category, verify it exists
     if (dto.categoryId && dto.categoryId !== item.categoryId) {
       const category = await this.categoryRepo.findOne({
-        where: { id: dto.categoryId, organizationId },
+        where: { id: dto.categoryId },
       });
 
       if (!category) {
@@ -341,7 +337,7 @@ export class MenuService {
     // If updating slug, check for duplicates
     if (dto.slug && dto.slug !== item.slug) {
       const existing = await this.menuItemRepo.findOne({
-        where: { slug: dto.slug, organizationId },
+        where: { slug: dto.slug },
       });
 
       if (existing && existing.id !== id) {
@@ -353,54 +349,52 @@ export class MenuService {
     return this.menuItemRepo.save(item);
   }
 
-  async toggleAvailability(id: number, organizationId: string): Promise<MenuItem> {
-    const item = await this.getMenuItemById(id, organizationId);
+  async toggleAvailability(id: number): Promise<MenuItem> {
+    const item = await this.getMenuItemById(id);
     item.isAvailable = !item.isAvailable;
     return this.menuItemRepo.save(item);
   }
 
-  async toggleFeatured(id: number, organizationId: string): Promise<MenuItem> {
-    const item = await this.getMenuItemById(id, organizationId);
+  async toggleFeatured(id: number): Promise<MenuItem> {
+    const item = await this.getMenuItemById(id);
     item.isFeatured = !item.isFeatured;
     return this.menuItemRepo.save(item);
   }
 
-  async deleteMenuItem(id: number, organizationId: string): Promise<void> {
-    const item = await this.getMenuItemById(id, organizationId);
-    await this.menuItemRepo.softDelete({ id, organizationId });
+  async deleteMenuItem(id: number): Promise<void> {
+    await this.getMenuItemById(id);
+    await this.menuItemRepo.softDelete({ id });
   }
 
-  async bulkUpdateMenuItemOrder(organizationId: string, dto: BulkUpdateOrderDto): Promise<void> {
-    // Verify all items belong to this organization
+  async bulkUpdateMenuItemOrder(dto: BulkUpdateOrderDto): Promise<void> {
     const itemIds = dto.items.map(item => item.id);
     const items = await this.menuItemRepo.find({
-      where: { id: In(itemIds), organizationId }
+      where: { id: In(itemIds) }
     });
-    
+
     if (items.length !== itemIds.length) {
       throw new NotFoundException('One or more menu items not found');
     }
 
     const updates = dto.items.map((item) =>
-      this.menuItemRepo.update({ id: item.id, organizationId }, { order: item.order })
+      this.menuItemRepo.update({ id: item.id }, { order: item.order })
     );
     await Promise.all(updates);
   }
 
-  async bulkDeleteMenuItems(organizationId: string, ids: number[]): Promise<void> {
-    // Verify all items belong to this organization
+  async bulkDeleteMenuItems(ids: number[]): Promise<void> {
     const items = await this.menuItemRepo.find({
-      where: { id: In(ids), organizationId }
+      where: { id: In(ids) }
     });
-    
+
     if (items.length !== ids.length) {
       throw new NotFoundException('One or more menu items not found');
     }
 
-    await this.menuItemRepo.softDelete({ id: In(ids), organizationId });
+    await this.menuItemRepo.softDelete({ id: In(ids) });
   }
 
-  async getMenuStatistics(organizationId: string) {
+  async getMenuStatistics() {
     const [
       totalCategories,
       activeCategories,
@@ -410,21 +404,20 @@ export class MenuService {
       featuredItems,
       avgPrice,
     ] = await Promise.all([
-      this.categoryRepo.count({ where: { organizationId } }),
-      this.categoryRepo.count({ where: { organizationId, isActive: true } }),
-      this.menuItemRepo.count({ where: { organizationId } }),
-      this.menuItemRepo.count({ where: { organizationId, isActive: true } }),
+      this.categoryRepo.count(),
+      this.categoryRepo.count({ where: { isActive: true } }),
+      this.menuItemRepo.count(),
+      this.menuItemRepo.count({ where: { isActive: true } }),
       this.menuItemRepo.count({
-        where: { organizationId, isActive: true, isAvailable: true },
+        where: { isActive: true, isAvailable: true },
       }),
       this.menuItemRepo.count({
-        where: { organizationId, isActive: true, isFeatured: true },
+        where: { isActive: true, isFeatured: true },
       }),
       this.menuItemRepo
         .createQueryBuilder('item')
         .select('AVG(item.price)', 'avg')
-        .where('item.organizationId = :organizationId', { organizationId })
-        .andWhere('item.isActive = :isActive', { isActive: true })
+        .where('item.isActive = :isActive', { isActive: true })
         .getRawOne(),
     ]);
 

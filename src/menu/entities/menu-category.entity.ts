@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { MenuItem } from './menu-item.entity';
-import { Organization } from 'src/organization/entities/organisation.entity';
 
 @Entity('menu_categories')
 export class MenuCategory {
@@ -28,13 +27,6 @@ export class MenuCategory {
     @OneToMany(() => MenuItem, (menuItem) => menuItem.category)
     items: MenuItem[];
 
-
-    @ManyToOne(() => Organization, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'organizationId' })
-    organization: Organization;
-
-    @Column({ type: 'uuid' })
-    organizationId: string;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;

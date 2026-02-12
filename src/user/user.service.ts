@@ -9,19 +9,19 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   /**
    * Create a new user
    */
-  public async createUser(req: CreateUserDto, organizationId:string): Promise<User> {
-    const existingUser = await this.userRepository.findOne({ where: { email: req.email, organizationId:organizationId } });
+  public async createUser(req: CreateUserDto): Promise<User> {
+    const existingUser = await this.userRepository.findOne({ where: { email: req.email } });
     if (existingUser) {
       throw new BadRequestException('User with this email already exists');
     }
 
     try {
-      const user = this.userRepository.create({organizationId, ...req});
+      const user = this.userRepository.create(req);
       return await this.userRepository.save(user);
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY' || error.code === '23505') {
@@ -38,10 +38,10 @@ export class UserService {
     return await this.userRepository.findOne({ where: { email } });
   }
 
-    public async findById(id: string): Promise<User | null> {
-    return await this.userRepository.findOne({ 
+  public async findById(id: string): Promise<User | null> {
+    return await this.userRepository.findOne({
       where: { id },
-      select: ['id', 'email', 'firstName', 'lastName', 'role', 'status','organizationId'] 
+      select: ['id', 'email', 'firstName', 'lastName', 'role', 'status']
     });
   }
 
@@ -61,7 +61,7 @@ export class UserService {
    * Change user password
    */
   public async changePassword(email: string, hashedPassword: string): Promise<void> {
-    await this.getByEmail(email); 
+    await this.getByEmail(email);
     await this.userRepository.update({ email }, { password: hashedPassword });
   }
 
@@ -69,7 +69,7 @@ export class UserService {
    * Update user status
    */
   private async updateStatus(email: string, status: 'active' | 'inactive' | 'pending' | 'deleted'): Promise<void> {
-    await this.getByEmail(email); 
+    await this.getByEmail(email);
     await this.userRepository.update({ email }, { status });
   }
 

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, Matches, IsUUID, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, Matches } from 'class-validator';
 
 export class UpdateThemeDto {
   @IsString()
@@ -28,8 +28,4 @@ export class UpdateThemeDto {
     message: 'textColor must be a valid hex color',
   })
   textColor: string;
-
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsUrl, IsUUID, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
 
 export class UpdateLocationDto {
   @IsString()
@@ -16,8 +16,4 @@ export class UpdateLocationDto {
   @IsString()
   @IsNotEmpty()
   buttonText: string;
-
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }

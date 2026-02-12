@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateWhyChooseUsCheckDto {
   @IsString()
@@ -8,10 +8,6 @@ export class CreateWhyChooseUsCheckDto {
   @IsNumber()
   @IsOptional()
   order?: number;
-
-  @IsUUID()
-  @IsOptional()
-  organizationId?: string;
 }
 
 export class UpdateWhyChooseUsCheckDto {

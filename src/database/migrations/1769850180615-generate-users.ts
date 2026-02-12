@@ -5,7 +5,6 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
     public async up(queryRunner: QueryRunner): Promise<void> {
         const hashedPassword = await bcrypt.hash('password', 10);
     
-        
         // Create users with different roles
         await queryRunner.query(`
             INSERT INTO "user" (
@@ -20,9 +19,8 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 "createdAt",
                 "updatedAt"
             ) VALUES 
-            -- Admin/Owner
             (
-                gen_random_uuid(),
+                uuid_generate_v4(),
                 'John',
                 'Doe',
                 'admin@app.com',
@@ -33,9 +31,8 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 NOW(),
                 NOW()
             ),
-            -- Manager
             (
-                gen_random_uuid(),
+                uuid_generate_v4(),
                 'Sarah',
                 'Johnson',
                 'manager@app.com',
@@ -46,9 +43,8 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 NOW(),
                 NOW()
             ),
-            -- Chef
             (
-                gen_random_uuid(),
+                uuid_generate_v4(),
                 'Michael',
                 'Chen',
                 'chef@app.com',
@@ -59,9 +55,8 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 NOW(),
                 NOW()
             ),
-            -- Waiter/Server
             (
-                gen_random_uuid(),
+                uuid_generate_v4(),
                 'Emily',
                 'Rodriguez',
                 'waiter@app.com',
@@ -72,9 +67,8 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 NOW(),
                 NOW()
             ),
-            -- Host/Receptionist
             (
-                gen_random_uuid(),
+                uuid_generate_v4(),
                 'David',
                 'Williams',
                 'host@app.com',
@@ -85,9 +79,8 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
                 NOW(),
                 NOW()
             ),
-            -- Regular User/Customer
             (
-                gen_random_uuid(),
+                uuid_generate_v4(),
                 'Lisa',
                 'Anderson',
                 'user@app.com',
@@ -102,7 +95,7 @@ export class SeedDefaultOrganizationAndUsers1769850180615 implements MigrationIn
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        // Delete users first (due to foreign key constraint)
+        // Delete users
         await queryRunner.query(`
             DELETE FROM "user" 
             WHERE email IN (

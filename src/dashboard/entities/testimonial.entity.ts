@@ -15,8 +15,6 @@ export class Testimonials {
     @Column()
     title: string;
 
-
-
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
 }

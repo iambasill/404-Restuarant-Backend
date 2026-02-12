@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, IsUrl, Min, Max } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsBoolean, IsOptional, Min, Max } from 'class-validator';
 
 export class CreateTestimonialItemDto {
   @IsString()
@@ -18,7 +18,7 @@ export class CreateTestimonialItemDto {
   @IsNotEmpty()
   text: string;
 
-  @IsUrl()
+  @IsString()
   @IsNotEmpty()
   image: string;
 
@@ -50,7 +50,7 @@ export class UpdateTestimonialItemDto {
   @IsOptional()
   text?: string;
 
-  @IsUrl()
+  @IsString()
   @IsOptional()
   image?: string;
 

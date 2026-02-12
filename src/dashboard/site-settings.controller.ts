@@ -5,84 +5,87 @@ import { PublicRoute } from 'src/auth/decorator/allow-anonymous.decorator';
 
 @PublicRoute()
 @Controller('dashboard')
+
 export class SiteSettingsController {
-  constructor(private readonly siteSettingsService: SiteSettingsService) {}
+  
+  constructor(private readonly siteSettingsService: SiteSettingsService
+  ) {}
 
   @Get('')
-  getAllSettings(@Query('orgId') orgId: string) {
-    return this.siteSettingsService.getAllSettings(orgId);
+  getAllSettings() {
+    return this.siteSettingsService.getAllSettings();
   }
 
   @Get('/contact')
-  getContact(@Query('orgId') orgId: string) {
-    return this.siteSettingsService.getContact(orgId);
+  getContact() {
+    return this.siteSettingsService.getContact();
   }
 
   @Get('/location')
-  getLocation(@Query('orgId') orgId: string) {
-    return this.siteSettingsService.getLocation(orgId);
+  getLocation() {
+    return this.siteSettingsService.getLocation();
   }
 
   @Get('/stats')
-  async getStats(@Query('orgId') orgId: string) {
-    const stats = await this.siteSettingsService.getStats(orgId);
-    const items = await this.siteSettingsService.getStatItems(orgId);
+  async getStats() {
+    const stats = await this.siteSettingsService.getStats();
+    const items = await this.siteSettingsService.getStatItems();
     return { ...stats, items };
   }
 
   @Get('/menu-section')
-  getMenuSection(@Query('orgId') orgId: string) {
-    return this.siteSettingsService.getMenuSection(orgId);
+  getMenuSection() {
+    return this.siteSettingsService.getMenuSection();
   }
 
   @Get('/why-choose-us')
-  async getWhyChooseUs(@Query('orgId') orgId: string) {
-    const whyChooseUs = await this.siteSettingsService.getWhyChooseUs(orgId);
-    const items = await this.siteSettingsService.getWhyChooseUsItems(orgId);
-    const checks = await this.siteSettingsService.getWhyChooseUsChecks(orgId);
+  async getWhyChooseUs() {
+    const whyChooseUs = await this.siteSettingsService.getWhyChooseUs();
+    const items = await this.siteSettingsService.getWhyChooseUsItems();
+    const checks = await this.siteSettingsService.getWhyChooseUsChecks();
     return { ...whyChooseUs, items, checkItems: checks };
   }
 
   @Get('/newsletter')
-  getNewsletter(@Query('orgId') orgId: string) {
-    return this.siteSettingsService.getNewsletter(orgId);
+  getNewsletter() {
+    return this.siteSettingsService.getNewsletter();
   }
 
   @Post('/newsletter/subscribe')
   subscribe(
     @Body() dto: SubscribeNewsletterDto,
-    @Query('orgId') orgId: string
+    
   ) {
-    return this.siteSettingsService.subscribe(orgId, dto);
+    return this.siteSettingsService.subscribe(dto);
   }
 
   @Get('/testimonials')
-  async getTestimonials(@Query('orgId') orgId: string) {
-    const testimonials = await this.siteSettingsService.getTestimonials(orgId);
-    const items = await this.siteSettingsService.getTestimonialItems(orgId);
+  async getTestimonials() {
+    const testimonials = await this.siteSettingsService.getTestimonials();
+    const items = await this.siteSettingsService.getTestimonialItems();
     return { ...testimonials, items };
   }
 
   @Get('/navigation')
-  getNavItems(@Query('orgId') orgId: string) {
-    return this.siteSettingsService.getNavItems(orgId);
+  getNavItems() {
+    return this.siteSettingsService.getNavItems();
   }
 
   @Get('/footer')
-  async getFooter(@Query('orgId') orgId: string) {
-    const footer = await this.siteSettingsService.getFooter(orgId);
-    const productLinks = await this.siteSettingsService.getFooterProductLinks(orgId);
-    const legalLinks = await this.siteSettingsService.getFooterLegalLinks(orgId);
+  async getFooter() {
+    const footer = await this.siteSettingsService.getFooter();
+    const productLinks = await this.siteSettingsService.getFooterProductLinks();
+    const legalLinks = await this.siteSettingsService.getFooterLegalLinks();
     return { ...footer, productLinks, legalLinks };
   }
 
   @Get('/announcement')
-  getAnnouncement(@Query('orgId') orgId: string) {
-    return this.siteSettingsService.getAnnouncement(orgId);
+  getAnnouncement() {
+    return this.siteSettingsService.getAnnouncement();
   }
 
   @Get('/theme')
-  getTheme(@Query('orgId') orgId: string) {
-    return this.siteSettingsService.getTheme(orgId);
+  getTheme() {
+    return this.siteSettingsService.getTheme();
   }
 }
